@@ -2,6 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
+import MuxPlayer from "@mux/mux-player-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Pencil, PlusCircle, Video } from "lucide-react";
@@ -12,26 +13,32 @@ import { FileUpload } from "@/components/file-upload";
 import Image from "next/image";
 
 interface ChapterVideoProps {
-  initialData: Chapter & {muxData?:MuxData | null};
+  initialData: Chapter & { muxData?: MuxData | null };
   courseId: string;
-  chapterId:string
+  chapterId: string;
 }
 
 const formShema = z.object({
   videoUrl: z.string().min(1),
 });
 
-const ChapterVideo = ({ initialData, courseId,chapterId }: ChapterVideoProps) => {
+const ChapterVideo = ({
+  initialData,
+  courseId,
+  chapterId,
+}: ChapterVideoProps) => {
   const router = useRouter();
 
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing(!isEditing);
 
- 
   const onSubmit = async (values: z.infer<typeof formShema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+      await axios.patch(
+        `/api/courses/${courseId}/chapters/${chapterId}`,
+        values
+      );
       toast.success("Chapter updated");
       toggleEdit();
       router.refresh();
@@ -68,7 +75,9 @@ const ChapterVideo = ({ initialData, courseId,chapterId }: ChapterVideoProps) =>
           </div>
         ) : (
           <div className="relative aspect-video mt-2">
-            Video uploaded!
+            <MuxPlayer 
+            playbackId={initialData?.muxData?.playbackId || ""}
+            />
           </div>
         ))}
       {isEditing && (
@@ -88,7 +97,8 @@ const ChapterVideo = ({ initialData, courseId,chapterId }: ChapterVideoProps) =>
       )}
       {initialData.videoUrl && !isEditing && (
         <div className="text-xs text-muted-foreground mt-2">
-          Videos can take a few minutes to process. Refresh the page if video does not appear.
+          Videos can take a few minutes to process. Refresh the page if video
+          does not appear.
         </div>
       )}
     </div>
