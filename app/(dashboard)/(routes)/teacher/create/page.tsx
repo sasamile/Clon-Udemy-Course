@@ -58,7 +58,7 @@ const CreatePage = () => {
       <div>
         <h1 className="text-2xl">Name your course</h1>
         <p className="text-sm text-slate-600">
-          what would you like to name your couse? Don't worry, you can change
+          what would you like to name your couse? Dont worry, you can change
           this laster.
         </p>
         <Form {...form}>

@@ -91,7 +91,7 @@ const ChapterVideo = ({
             }}
           />
           <div className="text-xs text-muted-foreground mt-4">
-            upload this chapter's video
+            upload this chapters video
           </div>
         </div>
       )}
