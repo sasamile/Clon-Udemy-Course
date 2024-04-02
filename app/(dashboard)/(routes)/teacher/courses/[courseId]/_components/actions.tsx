@@ -30,6 +30,8 @@ function Actions({ disableb, courseId, isPublished }: ActionsProps) {
       } else {
         await axios.patch(`/api/courses/${courseId}/publish`);
         toast.success("Course published");
+        router.push("/teacher/courses");
+
         confetti.onOpen();
       }
 
